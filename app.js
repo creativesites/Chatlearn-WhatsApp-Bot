@@ -5,11 +5,21 @@ const mime = require('mime-types');
 const fs = require('fs');
 const wa = require('@open-wa/wa-automate');
 const dialogflow = require('@google-cloud/dialogflow');
-const mongoose = require('mongoose');
 const {fileToBase64} = require('file-base64');
 const imageDataURI = require('image-data-uri');
 const path = require('path');
 const moment = require('moment');
+const mongoose = require('mongoose');
+try {
+    mongoose.connect('mongodb+srv://admin:higibertigibet@cluster0.abb0bhi.mongodb.net/?retryWrites=true&w=majority', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+        console.log('db connected webhook') 
+  } catch (error) {
+    console.log(error)
+  }
+const User = require('./models/User');
 
 const ON_DEATH = fn => process.on("exit",fn) 
 
@@ -37,7 +47,7 @@ ON_DEATH(async function() {
   
   wa.create({
     sessionId: "Chatlearn",
-    executablePath: '/usr/bin/chromium-browser',
+    useChrome: true,
     multiDevice: true, //required to enable multiDevice support
     authTimeout: 60, //wait only 60 seconds to get a connection with the host account device
     blockCrashLogs: true,
@@ -116,10 +126,30 @@ ON_DEATH(async function() {
 
   }
     client.onMessage(async message => {
-      if(message.body === 'Test server'){
-        await client.sendText(message.from, '👋 Hello from server!')
-      }
-      runSample('whatsapp-chatbot-290018', message.from, message.body)
+        let serNum = message.from
+        let userNum = serNum.slice(0, -5);
+        User.findById(userId, async function (err, doc) {
+            if (err) {
+                console.log("Something wrong when updating data!");
+
+            }
+            if (doc == null){
+                const addNew = new User({_id: message.from, registered: false, number: userNum});
+                addNew.save(function (err, doc) {
+                    if (err) 
+                        return console.error(err);
+                    console.log("Document inserted succussfully!");
+                    console.log(doc);
+                });
+                await client.sendText(message.from, '👋 Hello! Before we get started, let me get a few details.\nWhat is your first name?')
+            }else{
+                if(message.body === 'Test server'){
+                    await client.sendText(message.from, '👋 Hello from server!')
+                  }
+                  runSample('whatsapp-chatbot-290018', message.from, message.body)
+            }
+        })
+      
     });
     
     
