@@ -1,0 +1,36 @@
+{
+  "name": "chatlearn-whatsapp-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/creativesites/Chatlearn-WhatsApp-Bot.git"
+  },
+  "author": "Winston Zulu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/creativesites/Chatlearn-WhatsApp-Bot/issues"
+  },
+  "homepage": "https://github.com/creativesites/Chatlearn-WhatsApp-Bot#readme",
+  "dependencies": {
+    "@google-cloud/dialogflow": "^5.1.0",
+    "@open-wa/wa-automate": "^4.42.7",
+    "actions-on-google": "^3.0.0",
+    "body-parser": "^1.20.0",
+    "dialogflow-helper": "^0.0.10",
+    "easy-promise-queue": "^0.5.7",
+    "express": "^4.18.1",
+    "file-base64": "^1.0.0",
+    "fs": "^0.0.1-security",
+    "image-data-uri": "^2.0.1",
+    "mime-types": "^2.1.35",
+    "moment": "^2.29.4",
+    "mongoose": "^6.4.4",
+    "p-queue": "^7.2.0",
+    "path": "^0.12.7"
+  }
+}
